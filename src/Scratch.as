@@ -92,7 +92,7 @@ public class Scratch extends Sprite {
 	public var isMicroworld:Boolean = false;
 
 	public var presentationScale:Number;
-	
+
 	// Runtime
 	public var runtime:ScratchRuntime;
 	public var interp:Interpreter;
@@ -163,6 +163,7 @@ public class Scratch extends Sprite {
 
 	protected function initialize():void {
 		isOffline = !URLUtil.isHttpURL(loaderInfo.url);
+		isOffline = true; // オフラインとして動くように追加
 		hostProtocol = URLUtil.getProtocol(loaderInfo.url);
 
 		isExtensionDevMode = (loaderInfo.parameters['extensionDevMode'] == 'true');
@@ -896,15 +897,15 @@ public class Scratch extends Sprite {
 
 		updateLayout(w, h);
 	}
-	
+
 	public function updateRecordingTools(t:Number):void {
 		stagePart.updateRecordingTools(t);
 	}
-	
+
 	public function removeRecordingTools():void {
 		stagePart.removeRecordingTools();
 	}
-	
+
 	public function refreshStagePart():void {
 		stagePart.refresh();
 	}
@@ -1062,7 +1063,7 @@ public class Scratch extends Sprite {
 
 		m.showOnStage(stage, b.x, topBarPart.bottom() - 1);
 	}
-	
+
 	public function stopVideo(b:*):void {
 		runtime.stopVideo();
 	}
