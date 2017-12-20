@@ -629,7 +629,8 @@ public class Scratch extends Sprite {
 			else if (StringUtil.endsWith(s, '.sbx')) s = s.slice(0, -4);
 			else break;
 		}
-		stagePart.setProjectName(s);
+		// プロジェクトロード時に名前を表示させないように
+		// stagePart.setProjectName(s);
 	}
 
 	protected var wasEditing:Boolean;
