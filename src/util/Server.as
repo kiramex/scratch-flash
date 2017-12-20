@@ -344,5 +344,9 @@ public class Server implements IServer {
 		sharedObj.data.lang = lang;
 		sharedObj.flush();
 	}
+
+	public function saveProjectToServer(data:ByteArray, whenDone:Function):void {
+		callServer(URLs.pathname + "/save", data, "application/octet-stream; charset=utf-8", whenDone);
+	}
 }
 }

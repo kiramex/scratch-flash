@@ -42,6 +42,7 @@ import flash.net.LocalConnection;
 import flash.net.URLLoader;
 import flash.net.URLLoaderDataFormat;
 import flash.net.URLRequest;
+import flash.net.URLRequestMethod;
 import flash.system.*;
 import flash.text.*;
 import flash.utils.*;
@@ -1217,6 +1218,26 @@ public class Scratch extends Sprite {
 				saveNeeded = false;
 			}
 			if (saveCallback != null) saveCallback();
+		}
+
+		if (loadInProgress) return;
+		var projIO:ProjectIO = new ProjectIO(this);
+		projIO.convertSqueakSounds(stagePane, squeakSoundsConverted);
+	}
+
+	public function saveProjectToServer(b:*):void {
+		function squeakSoundsConverted():void {
+			scriptsPane.saveScripts(false);
+			var zipData:ByteArray = projIO.encodeProjectAsZipFile(stagePane);
+			server.saveProjectToServer(zipData, fileSaved);
+		}
+
+		function fileSaved(data:String):void {
+			if (data == null) {
+				externalCall('OnErrorSavedToServer');
+			} else {
+				externalCall('OnSavedToServer');
+			}
 		}
 
 		if (loadInProgress) return;

@@ -43,6 +43,7 @@ public class TopBarPart extends UIPart {
 
 	protected var fileMenu:IconButton;
 	protected var editMenu:IconButton;
+	protected var saveButton:IconButton;
 
 	private var copyTool:IconButton;
 	private var cutTool:IconButton;
@@ -93,13 +94,14 @@ public class TopBarPart extends UIPart {
 			Scratch.app.showFileMenu(Menu.dummyButton());
 			Scratch.app.showEditMenu(Menu.dummyButton());
 		}
-		return ['File', 'Edit', 'Tips', 'Duplicate', 'Delete', 'Grow', 'Shrink', 'Block help', 'Offline Editor'];
+		return ['File', 'Edit', 'Save', 'Tips', 'Duplicate', 'Delete', 'Grow', 'Shrink', 'Block help', 'Offline Editor'];
 	}
 
 	protected function removeTextButtons():void {
 		if (fileMenu.parent) {
 			removeChild(fileMenu);
 			removeChild(editMenu);
+			removeChild(saveButton);
 		}
 	}
 
@@ -149,6 +151,10 @@ public class TopBarPart extends UIPart {
 		editMenu.x = nextX;
 		editMenu.y = buttonY;
 		nextX += editMenu.width + buttonSpace;
+
+		saveButton.x = nextX;
+		saveButton.y = buttonY;
+		nextX += saveButton.width + buttonSpace;
 
 		// cursor tool buttons
 		var space:int = 3;
@@ -208,6 +214,7 @@ public class TopBarPart extends UIPart {
 	protected function addTextButtons():void {
 		addChild(fileMenu = makeMenuButton('File', app.showFileMenu, true));
 		addChild(editMenu = makeMenuButton('Edit', app.showEditMenu, true));
+		addChild(saveButton = makeMenuButton('Save', app.saveProjectToServer, false));
 	}
 
 	private function addToolButtons():void {
