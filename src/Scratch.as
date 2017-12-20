@@ -236,9 +236,10 @@ public class Scratch extends Sprite {
 		addExternalCallback('ASextensionCallDone', extensionManager.callCompleted);
 		addExternalCallback('ASextensionReporterDone', extensionManager.reporterCompleted);
 		addExternalCallback('AScreateNewProject', createNewProjectScratchX);
+		addExternalCallback('ASloadGithubURL', loadGithubURL); // エクステンションモードじゃなくても使えるように
 
 		if (isExtensionDevMode) {
-			addExternalCallback('ASloadGithubURL', loadGithubURL);
+			// addExternalCallback('ASloadGithubURL', loadGithubURL);
 			addExternalCallback('ASloadBase64SBX', loadBase64SBX);
 			addExternalCallback('ASsetModalOverlay', setModalOverlay);
 		}
@@ -292,7 +293,7 @@ public class Scratch extends Sprite {
 
 	private var pendingExtensionURLs:Array;
 	private function loadGithubURL(urlOrArray:*):void {
-		if (!isExtensionDevMode) return;
+		// if (!isExtensionDevMode) return;
 
 		var url:String;
 		var urlArray:Array = urlOrArray as Array;
