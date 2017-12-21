@@ -316,7 +316,7 @@ public class Server implements IServer {
 	}
 
 	public function getThumbnail(idAndExt:String, w:int, h:int, whenDone:Function):URLLoader {
-		var url:String = getCdnStaticSiteURL() + 'medialibrarythumbnails/' + idAndExt;
+		var url:String = getCdnStaticSiteURL() + 'asset/' + idAndExt;
 		return downloadThumbnail(url, w, h, whenDone);
 	}
 
