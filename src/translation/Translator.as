@@ -65,6 +65,7 @@ public class Translator {
 			languages = newLanguages;
 		}
 		Scratch.app.server.getLanguageList(saveLanguageList);
+		Translator.setLanguage('ja');
 	}
 
 	public static function setLanguageValue(lang:String):void {
