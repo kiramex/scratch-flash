@@ -135,6 +135,9 @@ public class Scratch extends Sprite {
 	public const tipsBarClosedWidth:int = 17;
 
 	public var logger:Log = new Log(16);
+	
+	private var saveInterval:int = 60000;
+	private var saveTimer:Timer;
 
 	public function Scratch() {
 		SVGTool.setStage(stage);
@@ -223,6 +226,18 @@ public class Scratch extends Sprite {
 		//Analyze.countMissingAssets();
 
 		handleStartupParameters();
+		
+		saveInterval = loaderInfo.parameters["saveInterval"];
+		saveTimer = new Timer(saveInterval);
+		saveTimer.addEventListener(TimerEvent.TIMER, elapsedSaveTimer);
+		
+		saveTimer.start();
+	}
+	
+	private function elapsedSaveTimer(event:TimerEvent) {
+		if(!saveNeeded) return;
+
+		app.saveProjectToServer(null);
 	}
 
 	protected function handleStartupParameters():void {
@@ -1228,6 +1243,7 @@ public class Scratch extends Sprite {
 
 	public function saveProjectToServer(b:*):void {
 		function squeakSoundsConverted():void {
+			externalCall('OnSavingToServer');
 			scriptsPane.saveScripts(false);
 			var zipData:ByteArray = projIO.encodeProjectAsZipFile(stagePane);
 			server.saveProjectToServer(zipData, fileSaved);
@@ -1238,6 +1254,7 @@ public class Scratch extends Sprite {
 				externalCall('OnErrorSavedToServer');
 			} else {
 				externalCall('OnSavedToServer');
+				clearSaveNeeded();
 			}
 		}
 
@@ -1339,6 +1356,7 @@ public class Scratch extends Sprite {
 		saveNow = false;
 		// Set saveNeeded flag and update the status string.
 		saveNeeded = true;
+		externalCall('OnSaveNeeded');
 		if (!wasEdited) saveNow = true; // force a save on first change
 		clearRevertUndo();
 	}
@@ -1348,7 +1366,8 @@ public class Scratch extends Sprite {
 		function twoDigits(n:int):String {
 			return ((n < 10) ? '0' : '') + n
 		}
-
+		
+		externalCall('OnClearedSaveNeeded');
 		saveNeeded = false;
 		wasEdited = true;
 	}
@@ -1665,6 +1684,6 @@ public class Scratch extends Sprite {
 		var args:Array = jsCallbackArray.concat(); // clone
 		args.splice(1, 0, returnValueCallback);
 		externalCall.apply(this, args);
-	}
+	} 
 }
 }
