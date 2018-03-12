@@ -1244,6 +1244,7 @@ public class Scratch extends Sprite {
 	public function saveProjectToServer(b:*):void {
 		function squeakSoundsConverted():void {
 			externalCall('OnSavingToServer');
+			topBarPart.saveStateIndicator.text = "（保存中）";
 			scriptsPane.saveScripts(false);
 			var zipData:ByteArray = projIO.encodeProjectAsZipFile(stagePane);
 			server.saveProjectToServer(zipData, fileSaved);
@@ -1252,8 +1253,10 @@ public class Scratch extends Sprite {
 		function fileSaved(data:String):void {
 			if (data == null) {
 				externalCall('OnErrorSavedToServer');
+				topBarPart.saveStateIndicator.text = "（保存しっぱい）";
 			} else {
 				externalCall('OnSavedToServer');
+				topBarPart.saveStateIndicator.text = "（保存しました）";
 				clearSaveNeeded();
 			}
 		}
@@ -1357,6 +1360,8 @@ public class Scratch extends Sprite {
 		// Set saveNeeded flag and update the status string.
 		saveNeeded = true;
 		externalCall('OnSaveNeeded');
+		topBarPart.saveStateIndicator.text = "（作業中）";
+		
 		if (!wasEdited) saveNow = true; // force a save on first change
 		clearRevertUndo();
 	}
