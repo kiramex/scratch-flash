@@ -45,6 +45,8 @@ public class TopBarPart extends UIPart {
 	protected var editMenu:IconButton;
 	protected var saveButton:IconButton;
 
+	public var saveStateIndicator:TextField;
+
 	private var copyTool:IconButton;
 	private var cutTool:IconButton;
 	private var growTool:IconButton;
@@ -102,6 +104,7 @@ public class TopBarPart extends UIPart {
 			removeChild(fileMenu);
 			removeChild(editMenu);
 			removeChild(saveButton);
+			removeChild(saveStateIndicator);
 		}
 	}
 
@@ -155,6 +158,10 @@ public class TopBarPart extends UIPart {
 		saveButton.x = nextX;
 		saveButton.y = buttonY;
 		nextX += saveButton.width + buttonSpace;
+		
+		saveStateIndicator.x = nextX;
+		saveStateIndicator.y = buttonY;
+		nextX += saveStateIndicator.width + buttonSpace;
 
 		// cursor tool buttons
 		var space:int = 3;
@@ -215,6 +222,7 @@ public class TopBarPart extends UIPart {
 		addChild(fileMenu = makeMenuButton('File', app.showFileMenu, true));
 		addChild(editMenu = makeMenuButton('Edit', app.showEditMenu, true));
 		addChild(saveButton = makeMenuButton('Save', app.saveProjectToServer, false));
+		addChild(saveStateIndicator = makeLabel("", CSS.topBarButtonFormat, 2, 2));
 	}
 
 	private function addToolButtons():void {
